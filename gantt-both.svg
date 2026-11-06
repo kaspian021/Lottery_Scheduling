@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="930" height="180">
+<rect width="100%" height="100%" fill="#f7faff"/>
+<text x="24" y="30" font-family="Arial" font-size="19" font-weight="bold">Lottery Scheduling — Gantt Chart</text>
+<rect x="40.0" y="55" width="100.0" height="45" fill="#8ecae6" stroke="#334155"/>
+<text x="90.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P2</text>
+<rect x="140.0" y="55" width="100.0" height="45" fill="#ffd166" stroke="#334155"/>
+<text x="190.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P1</text>
+<rect x="240.0" y="55" width="50.0" height="45" fill="#b7e4c7" stroke="#334155"/>
+<text x="265.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P2</text>
+<rect x="290.0" y="55" width="100.0" height="45" fill="#cdb4db" stroke="#334155"/>
+<text x="340.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P5</text>
+<rect x="390.0" y="55" width="100.0" height="45" fill="#ffadad" stroke="#334155"/>
+<text x="440.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P1</text>
+<rect x="490.0" y="55" width="50.0" height="45" fill="#8ecae6" stroke="#334155"/>
+<text x="515.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P1</text>
+<rect x="540.0" y="55" width="50.0" height="45" fill="#ffd166" stroke="#334155"/>
+<text x="565.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P5</text>
+<rect x="590.0" y="55" width="100.0" height="45" fill="#b7e4c7" stroke="#334155"/>
+<text x="640.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P4</text>
+<rect x="690.0" y="55" width="100.0" height="45" fill="#cdb4db" stroke="#334155"/>
+<text x="740.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P3</text>
+<rect x="790.0" y="55" width="100.0" height="45" fill="#ffadad" stroke="#334155"/>
+<text x="840.0" y="80" text-anchor="middle" font-family="Arial" font-size="12">P3</text>
+</svg>

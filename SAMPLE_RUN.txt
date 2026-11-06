@@ -1,0 +1,37 @@
+\nMode: semaphore | quantum=2 | seed=7
+Gantt: 0-2:P2[ticket 6/10] | 2-4:P1[ticket 3/15] | 4-5:P2[ticket 7/15] | 5-7:P5[ticket 11/12] | 7-9:P1[ticket 1/12] | 9-10:P1[ticket 2/12] | 10-11:P5[ticket 7/7] | 11-13:P4[ticket 3/3] | 13-15:P3[ticket 1/2] | 15-17:P3[ticket 2/2]
+PID  Tickets  Burst  Completion  Waiting  Turnaround
+P1   5        5      10          5        10
+P2   3        3      5           2        5
+P3   2        4      17          13       17
+P4   1        2      13          10       12
+P5   4        3      11          6        9
+Gantt SVG written to: /mnt/data/Exercise-5-Lottery-Scheduling/gantt-semaphore.svg
+\nMode: monitor | quantum=2 | seed=7
+Gantt: 0-2:P2[ticket 6/10] | 2-4:P1[ticket 3/15] | 4-5:P2[ticket 7/15] | 5-7:P5[ticket 11/12] | 7-9:P1[ticket 1/12] | 9-10:P1[ticket 2/12] | 10-11:P5[ticket 7/7] | 11-13:P4[ticket 3/3] | 13-15:P3[ticket 1/2] | 15-17:P3[ticket 2/2]
+PID  Tickets  Burst  Completion  Waiting  Turnaround
+P1   5        5      10          5        10
+P2   3        3      5           2        5
+P3   2        4      17          13       17
+P4   1        2      13          10       12
+P5   4        3      11          6        9
+Gantt SVG written to: /mnt/data/Exercise-5-Lottery-Scheduling/gantt-monitor.svg
+\nMode: both | quantum=2 | seed=7
+Gantt: 0-2:P2[ticket 6/10] | 2-4:P1[ticket 3/15] | 4-5:P2[ticket 7/15] | 5-7:P5[ticket 11/12] | 7-9:P1[ticket 1/12] | 9-10:P1[ticket 2/12] | 10-11:P5[ticket 7/7] | 11-13:P4[ticket 3/3] | 13-15:P3[ticket 1/2] | 15-17:P3[ticket 2/2]
+PID  Tickets  Burst  Completion  Waiting  Turnaround
+P1   5        5      10          5        10
+P2   3        3      5           2        5
+P3   2        4      17          13       17
+P4   1        2      13          10       12
+P5   4        3      11          6        9
+Gantt SVG written to: /mnt/data/Exercise-5-Lottery-Scheduling/gantt-both.svg
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 718, in _warm_feature_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 509, in _warm_drawing_and_image_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/generated/interface/models.py", line 32861, in bring_to_front
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/remote.py", line 764, in __call__
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/client.py", line 175, in call
+artifact_tool.rpc.client.RemoteError: Element ordering requires an owning element collection.
