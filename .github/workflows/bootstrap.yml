@@ -1,0 +1,55 @@
+name: Bootstrap Lottery course project
+on:
+  push:
+    branches:
+      - Lottery-Scheduling-All-Exercises
+    paths:
+      - '.staging/ready.txt'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  hydrate-verify-and-push:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'Add all Lottery Scheduling course exercises and evidence' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target branch
+        uses: actions/checkout@v4
+        with:
+          ref: Lottery-Scheduling-All-Exercises
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Reconstruct and extract project source
+        run: |
+          cat .staging/chunk*.b64 | base64 -d > .staging/source.tar.xz
+          tar -xJf .staging/source.tar.xz -C .
+          rm -rf .staging
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Regenerate seeded experiment output
+        run: python tools/run_all_exercises.py
+      - name: Regenerate exercise figures and trace animation
+        run: python tools/generate_figures.py
+      - name: Build the 12-slide seminar deck
+        run: python tools/build_seminar.py
+      - name: Validate Markdown links and image paths
+        run: python tools/check_docs.py
+      - name: Run all unit and structure tests
+        run: |
+          mkdir -p outputs
+          set -o pipefail
+          python -m pytest -q | tee outputs/test_results.txt
+      - name: Commit all deliverables and push branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add all Lottery Scheduling course exercises and evidence"
+            git push origin "HEAD:Lottery-Scheduling-All-Exercises"
+          fi
