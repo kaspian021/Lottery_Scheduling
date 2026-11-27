@@ -69,9 +69,13 @@ Example:
     python tools/report_build.py fa exercise-5-lottery-scheduling-synchronization-demo/REPORT_FA.md exercise-5-lottery-scheduling-synchronization-demo/docs/Exercise5_Lottery_Sync_FA
     python tools/report_build.py en exercise-5-lottery-scheduling-synchronization-demo/REPORT_EN.md exercise-5-lottery-scheduling-synchronization-demo/docs/Exercise5_Lottery_Sync_EN
 
-By default the report builder requires at least 41 PDF pages for the extensive original exercises. Set REPORT_MIN_PAGES=1 for a shorter new report when building it intentionally:
+The reports for Exercises 5–8 include extended, exercise-specific technical appendices. Every English and Persian Word/PDF report for Exercises 5–8 must contain more than 40 pages (minimum 41). The build workflow checks the PDF page count and independently converts each DOCX with LibreOffice to confirm the Word pagination also exceeds 40 pages.
 
-    REPORT_MIN_PAGES=1 python tools/report_build.py fa path/to/REPORT_FA.md path/to/output/REPORT_FA
+The shared builder defaults to a minimum of 41 PDF pages:
+
+    python tools/report_build.py fa exercise-5-lottery-scheduling-synchronization-demo/REPORT_FA.md exercise-5-lottery-scheduling-synchronization-demo/docs/Exercise5_Lottery_Sync_FA
+
+The appendix entry in each report's front matter loads its corresponding APPENDICES_EN.md or APPENDICES_FA.md file. The [[PAGEBREAK]] markers create matching section breaks in both PDF and Word output.
 
 ## Reproducibility and scope
 
