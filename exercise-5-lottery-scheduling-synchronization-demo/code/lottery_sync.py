@@ -125,7 +125,8 @@ def run_demo(decisions: int = 3000, seed: int = 20261127) -> dict:
         raise ValueError("decisions must be positive")
     ticket_map = {"P1": 5, "P2": 3, "P3": 2}
     mutex = LotteryMutex(seed=seed, grant_limit=decisions)
-    state_lock = threading.Lock()
+    # The lottery mutex itself must protect this state; no second mutex should
+    # mask a broken ownership invariant in the demonstration.
     state = {"counter": 0, "active": 0, "max_active": 0}
     errors: list[str] = []
 
@@ -135,13 +136,12 @@ def run_demo(decisions: int = 3000, seed: int = 20261127) -> dict:
             if request is None:
                 return
             try:
-                with state_lock:
-                    state["active"] += 1
-                    state["max_active"] = max(state["max_active"], state["active"])
-                    old_value = state["counter"]
-                    time.sleep(0.00002)
-                    state["counter"] = old_value + 1
-                    state["active"] -= 1
+                state["active"] += 1
+                state["max_active"] = max(state["max_active"], state["active"])
+                old_value = state["counter"]
+                time.sleep(0.00002)
+                state["counter"] = old_value + 1
+                state["active"] -= 1
             except Exception as exc:  # pragma: no cover - defensive worker boundary
                 errors.append(f"{name}: {exc!r}")
                 raise
