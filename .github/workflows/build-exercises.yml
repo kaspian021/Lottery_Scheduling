@@ -74,6 +74,32 @@ jobs:
           python exercise-7-readers-writers-comparison/code/readers_writers.py
           python exercise-8-dining-philosophers-deadlock-starvation/code/dining.py
 
+      - name: Validate slide deck continuity and per-slide visuals
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pptx import Presentation
+
+          deck = Path("exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pptx")
+          prs = Presentation(str(deck))
+          if len(prs.slides) != 12:
+              raise SystemExit(f"Expected 12 consecutive slides, found {len(prs.slides)}")
+          for index, slide in enumerate(prs.slides, start=1):
+              visual_shapes = [
+                  shape for shape in slide.shapes
+                  if shape.name.startswith("VISUAL |")
+                  and shape.width > 0 and shape.height > 0
+              ]
+              if not visual_shapes:
+                  raise SystemExit(f"Slide {index} has no chart, diagram, or Gantt visual")
+              if len(slide.shapes) < 10:
+                  raise SystemExit(f"Slide {index} appears incomplete ({len(slide.shapes)} shapes)")
+              xml = slide._element.xml
+              if "<p:transition" not in xml or "<p:fade" not in xml:
+                  raise SystemExit(f"Slide {index} is missing its continuous fade transition")
+          print(f"Validated {len(prs.slides)} slides: each has a visual and a fast fade transition; no blank separators.")
+          PY
+
       - name: Rebuild original reports with corrected Persian RTL layout
         env:
           # RTL shaping may alter line wrapping and reduce pagination without
@@ -111,6 +137,16 @@ jobs:
             --convert-to pdf --outdir exercise-6-research-paper-and-seminar/docs \
             exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pptx
           test -s exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pdf
+
+      - name: Upload redesigned seminar deck
+        uses: actions/upload-artifact@v4
+        with:
+          name: lottery-scheduling-seminar-deck
+          path: |
+            exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pptx
+            exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pdf
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Validate PDFs and inspect Persian Word conversions
         run: |
