@@ -31,6 +31,8 @@ A policy can satisfy both safety rules and still have a progress problem. If req
 
 ## 2.1 Reader preference
 
+![Readers-writers admission flow and read/write compatibility](visuals/fig_readers_writers_admission.png)
+
 A reader may enter whenever there is no active writer. Waiting writers do not block newly arriving readers. This policy offers good reader concurrency and can make sense when reads greatly outnumber writes and writer latency is not critical.
 
 Its weakness is writer starvation. A continuous stream of readers can keep the reader count above zero or repeatedly enter before a writer gets the lock. The writer is safe from concurrent readers but may wait for an unbounded period in an unconstrained arrival model.
@@ -77,6 +79,8 @@ The implementation does not claim an operating-system-independent time bound. Th
 
 Each policy receives the same number of reader and writer operations. A reader acquires the read side, samples the shared version, holds the read lock for a short interval, and releases it. A writer acquires the write side, increments the version, holds the write lock briefly, and releases it.
 
+![Schematic Gantt timelines for reader preference, writer preference, and fair admission](visuals/gantt_policy_interleavings.png)
+
 The program records reader wait samples and writer wait samples separately. For each class it reports sample count, mean, p50, p95, and maximum wait in milliseconds. It also records the final version, peak simultaneous readers, and completed read/write entries.
 
 The same operation counts and critical-section durations are used for all three policies. This controls the workload shape, but it does not remove runtime noise. Python thread scheduling, CPU load, interpreter behavior, and operating-system lock implementation affect the measured numbers.
@@ -84,6 +88,8 @@ The same operation counts and critical-section durations are used for all three 
 # 6. Results interpretation
 
 The expected qualitative trade-off is more important than one observed runtime value:
+
+![Measured mean reader and writer wait by admission policy](visuals/chart_policy_wait.png)
 
 | Policy | Requests protected from overtaking | Main starvation risk |
 |---|---|---|
@@ -96,6 +102,8 @@ If a run reports a lower average wait for one class, that does not mean the poli
 # 7. Testing and reproducibility
 
 The test suite runs simultaneous reader and writer threads while checking that no writer overlaps another writer or any reader. It also checks that at least two readers can be active at the same time, demonstrating that the implementation is not merely a global mutex.
+
+![Observed reader concurrency and completed-operation counts](visuals/chart_reader_concurrency.png)
 
 A second concurrency test holds an initial reader, queues a writer, then queues a later reader. When the first reader exits, the test checks that the writer enters before the later reader. This directly checks the fair-mode non-bypass rule.
 
