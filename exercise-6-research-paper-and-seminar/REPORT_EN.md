@@ -1,6 +1,7 @@
 ---
 title: Research Review and Seminar on Lottery Scheduling
 subtitle: A critical reading of proportional-share scheduling, a reproducible lottery-versus-stride experiment, and an editable seminar deck
+appendix: APPENDICES_EN.md
 deliverable: Exercise 6 report (Word + PDF) and seminar presentation
 date: 2026-11-27
 footer: Research Paper and Seminar — Exercise 6
