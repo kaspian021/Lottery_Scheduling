@@ -72,6 +72,8 @@ Read the table carefully: the exact lost count varies per run (it is a race), bu
 The race is easiest to see by exhausting it. Two threads, each doing
 `read; add; write` on one cell, produce exactly six distinct orderings:
 
+![Gantt-style safe interleaving: two threads take turns in the protected section](visuals/gantt_synchronization_interleaving.png)
+
 | # | Order | Result | Outcome |
 |---|---|---|---|
 | 1 | T0r T0w T1r T1w | serial T0 then T1 | correct (+2) |
