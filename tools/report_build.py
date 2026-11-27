@@ -417,7 +417,7 @@ def pml(text, styles, rtl, kind="body", base_size=11):
 # --------------------------------------------------------------------------
 
 def _shapen(s: str, rtl: bool) -> str:
-    return get_display(arabic_reshaper.reshape(s)) if rtl else s
+    return get_display(arabic_reshaper.reshape(s), base_dir="R") if rtl else s
 
 
 class ReportDoc(BaseDocTemplate):
