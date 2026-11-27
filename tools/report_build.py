@@ -18,8 +18,8 @@ Usage::
     python tools/report_build.py fa path/to/REPORT_FA.md out/REPORT_FA
     python tools/report_build.py en path/to/REPORT_EN.md out/REPORT_EN
 
-The builder refuses to emit a document whose PDF has 40 or fewer pages, so a
-thin report fails the build instead of silently shipping.
+The builder validates a configurable minimum page count (REPORT_MIN_PAGES;
+default 41), so short reports cannot silently pass a strict build.
 """
 from __future__ import annotations
 
@@ -233,21 +233,31 @@ def esc(s: str) -> str:
 def shape(s: str, rtl: bool) -> str:
     if not rtl:
         return s
-    return get_display(arabic_reshaper.reshape(s))
+    # Explicit RTL base direction is essential for runs that begin with a
+    # Latin identifier inside an otherwise Persian paragraph.
+    return get_display(arabic_reshaper.reshape(s), base_dir="R")
 
 
 def inline_markup(text: str, rtl: bool, base_size: float):
-    """Return a ReportLab paragraph XML string with inline styles applied."""
+    """Return ReportLab XML with Persian inline runs in visual (RTL) order.
+
+    Markdown runs are kept intact for styling. ReportLab lays text out from
+    left to right and does not perform paragraph-level bidi, so RTL paragraphs
+    must emit runs in reverse order while each Persian run is shaped with an
+    explicit RTL base direction. Code runs remain LTR and are never reshaped.
+    """
     out = []
-    for seg, style in split_inline(text):
+    runs = list(split_inline(text))
+    if rtl:
+        runs.reverse()
+    for seg, style in runs:
         if not seg:
             continue
         raw = esc(seg)
         if style == "code":
             out.append(f'<font face="{MONO}" size="{base_size - 1.5:.1f}" color="#333333">{raw}</font>')
             continue
-        shaped = shape(seg, rtl)
-        shaped = esc(shaped)
+        shaped = esc(shape(seg, rtl))
         if style == "bold":
             out.append(f"<b>{shaped}</b>")
         elif style == "italic":
@@ -578,7 +588,7 @@ def build_pdf(lang: str, blocks, meta, out_pdf: str, toc_entries=None, n_toc_pag
             data.append(line)
         widths = []
         for ci in range(ncols):
-            maxlen = max(len(re.sub(r"[*`]", "", (r[ci] if ci < len(r) else ""))) for r in rows)
+            maxlen = max(len(re.sub(r"[*`]", "", (r[ci] if ci < len(r) else ""))) for r in norm)
             widths.append(min(max(maxlen, 6), 40) ** 0.82)
         tot = sum(widths)
         col_w = [ (A4[0] - 80) * w / tot for w in widths ]
@@ -697,7 +707,9 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
         if color:
             run.font.color.rgb = RGBColor.from_string(color)
         if rtl_run is None:
-            rtl_run = rtl
+            # LTR identifiers, dates, paths and numerals must remain LTR even
+            # when embedded in an RTL Persian paragraph.
+            rtl_run = rtl and bool(ARABIC.search(run.text or ""))
         rpr2 = run._element.get_or_add_rPr()
         rtl_el = rpr2.find(qn("w:rtl"))
         if rtl_run:
@@ -832,9 +844,9 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
 
     def add_table(rows):
         ncols = max(len(r) for r in rows)
+        # w:bidiVisual mirrors the visual cell order in Word. Keep the
+        # logical Markdown order here; reversing it as well would mirror twice.
         norm = [r + [""] * (ncols - len(r)) for r in rows]
-        if rtl:
-            norm = [list(reversed(r)) for r in norm]
         widths = []
         for ci in range(ncols):
             maxlen = max(len(re.sub(r"[*`]", "", (r[ci] if ci < len(r) else ""))) for r in rows)
@@ -985,7 +997,7 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
                     pf.right_indent = Inches(0.22)
                 else:
                     pf.left_indent = Inches(0.22)
-                r = p.add_run("•  "); set_run_fonts(r, REG, BODY_PT, color=STEEL_HEX, bold=True)
+                r = p.add_run("•  "); set_run_fonts(r, REG, BODY_PT, color=STEEL_HEX, bold=True, rtl_run=rtl)
                 for seg, style in split_inline(item):
                     if not seg:
                         continue
@@ -1008,7 +1020,7 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
                     pf.right_indent = Inches(0.22)
                 else:
                     pf.left_indent = Inches(0.22)
-                r = p.add_run(f"{idx}.  "); set_run_fonts(r, REG, BODY_PT, color=STEEL_HEX, bold=True)
+                r = p.add_run(f"{idx}.  "); set_run_fonts(r, REG, BODY_PT, color=STEEL_HEX, bold=True, rtl_run=rtl)
                 for seg, style in split_inline(item):
                     if not seg:
                         continue
@@ -1083,9 +1095,10 @@ def main(argv=None):
     pages = len(PdfReader(pdf_path).pages)
     print(f"BUILT {pdf_path} ({pages} pages)")
     print(f"BUILT {docx_path}")
-    if pages <= 40:
-        raise SystemExit(f"FAIL: {pdf_path} has {pages} pages; expected more than 40")
-    print("OK: page count verified > 40")
+    minimum_pages = int(os.environ.get("REPORT_MIN_PAGES", "41"))
+    if pages < minimum_pages:
+        raise SystemExit(f"FAIL: {pdf_path} has {pages} pages; minimum is {minimum_pages}")
+    print(f"OK: page count verified >= {minimum_pages}")
     return 0
 
 
