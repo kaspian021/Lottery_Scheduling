@@ -73,6 +73,8 @@ jobs:
           python exercise-6-research-paper-and-seminar/seminar/make_slides.py
           python exercise-7-readers-writers-comparison/code/readers_writers.py
           python exercise-8-dining-philosophers-deadlock-starvation/code/dining.py
+          python tools/generate_report_visuals.py
+          python tools/build_exercise_decks.py
 
       - name: Validate slide deck continuity and per-slide visuals
         run: |
@@ -137,6 +139,14 @@ jobs:
             --convert-to pdf --outdir exercise-6-research-paper-and-seminar/docs \
             exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pptx
           test -s exercise-6-research-paper-and-seminar/docs/Lottery_Scheduling_Seminar.pdf
+          for deck in exercise-*/docs/Exercise*_Visual_Seminar.pptx; do
+            outdir="$(dirname "$deck")"
+            libreoffice --headless -env:UserInstallation=file:///tmp/lo-exercise-visual-decks \
+              --convert-to pdf --outdir "$outdir" "$deck"
+          done
+          for pdf in exercise-*/docs/Exercise*_Visual_Seminar.pdf; do
+            test -s "$pdf"
+          done
 
       - name: Upload redesigned seminar deck
         uses: actions/upload-artifact@v4
@@ -210,6 +220,17 @@ jobs:
             fi
           done
           test "$(find /tmp/rtl-renders -type f -name '*.png' | wc -l)" -gt 0
+
+      - name: Validate image, chart, and Gantt coverage in all deliverables
+        run: python tools/validate_visual_deliverables.py
+
+      - name: Upload all eight exercise visual slide decks
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-exercise-visual-slide-decks
+          path: exercise-*/docs/Exercise*_Visual_Seminar.*
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Upload Persian RTL visual QA renders
         uses: actions/upload-artifact@v4
