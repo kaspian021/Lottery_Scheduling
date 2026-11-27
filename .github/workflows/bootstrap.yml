@@ -27,6 +27,8 @@ jobs:
           echo "0db99423d1e0aae333808aa689d4da346150e83a946a335b6570bfe95b5fcdf9  .staging/lottery-course-source.tar.xz" | sha256sum -c -
           tar -xJf .staging/lottery-course-source.tar.xz -C .
           rm -rf .staging
+      - name: Exclude CI workflow from bot commit (token lacks workflow scope)
+        run: rm -f .github/workflows/ci.yml
       - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
       - name: Regenerate reproducible experiment outputs
