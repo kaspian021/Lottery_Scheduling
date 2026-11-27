@@ -20,11 +20,11 @@ The attached work brief says seven exercises, while previous course context also
 - Best-effort `psutil` process runner with input validation and cleanup; it is explicitly not represented as kernel scheduling.
 - One folder per exercise, each with README, source runner, tests, docs guide, 2 SVG figures, 1 generated PNG plot, Persian/English report sources, and JSON results.
 - Exercise 4 synchronization comparison (Semaphore and Condition/Monitor).
-- Exercise 5 synchronization trace and GIF animation generated from executed results.
+- Exercise 5 synchronization trace and result chart generated from executed results. The current branch does not include a GIF animation.
 - Exercise 6 research report and seminar slide deck based on the primary 1994 paper.
 - Exercise 7 phase-based readers-writers model.
 - Exercise 8 dining-philosophers model with N-1 admission, atomic pair reservation, ticket aging, and explicit statement that aging does not prove bounded waiting.
-- Root project index, instructions, reproducibility tooling, requirements, and CI workflow.
+- Root project index, instructions, reproducibility tooling, requirements, and a build workflow. A separate read-only CI workflow is also provided.
 
 ## Validation
 
