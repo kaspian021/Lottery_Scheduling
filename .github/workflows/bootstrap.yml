@@ -21,34 +21,34 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-          cache: pip
-      - name: Reconstruct and extract project source
+      - name: Reconstruct and verify project source archive
         run: |
-          cat .staging/chunk*.b64 | base64 -d > .staging/source.tar.xz
-          tar -xJf .staging/source.tar.xz -C .
+          cat .staging/source-*.b64 | base64 -d > .staging/lottery-course-source.tar.xz
+          echo "0db99423d1e0aae333808aa689d4da346150e83a946a335b6570bfe95b5fcdf9  .staging/lottery-course-source.tar.xz" | sha256sum -c -
+          tar -xJf .staging/lottery-course-source.tar.xz -C .
           rm -rf .staging
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: python -m pip install -r requirements.txt
-      - name: Regenerate seeded experiment output
+      - name: Regenerate reproducible experiment outputs
         run: python tools/run_all_exercises.py
-      - name: Regenerate exercise figures and trace animation
+      - name: Regenerate SVG and PNG figures plus trace animation
         run: python tools/generate_figures.py
-      - name: Build the 12-slide seminar deck
+      - name: Build the seminar deck
         run: python tools/build_seminar.py
-      - name: Validate Markdown links and image paths
+      - name: Validate Markdown links and local image references
         run: python tools/check_docs.py
-      - name: Run all unit and structure tests
+      - name: Run all tests
         run: |
           mkdir -p outputs
           set -o pipefail
           python -m pytest -q | tee outputs/test_results.txt
-      - name: Commit all deliverables and push branch
+      - name: Commit complete project and push the branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
           if git diff --cached --quiet; then
-            echo "No changes to commit."
+            echo "No generated changes to commit."
           else
             git commit -m "Add all Lottery Scheduling course exercises and evidence"
             git push origin "HEAD:Lottery-Scheduling-All-Exercises"
