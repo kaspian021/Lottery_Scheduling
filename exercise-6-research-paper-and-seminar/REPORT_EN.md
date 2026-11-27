@@ -121,5 +121,5 @@ Lottery scheduling offers a flexible and composable proportional-share abstracti
 # References
 
 - Waldspurger, C. A., and Weihl, W. E. (1994). “Lottery Scheduling: Flexible Proportional-Share Resource Management.” OSDI 1994. https://www.usenix.org/legacy/publications/library/proceedings/osdi/full_papers/waldspurger.pdf
-- Waldspurger, C. A. (1995). “Lottery and Stride Scheduling: Flexible Proportional-Share Resource Management.” MIT-LCS-TR-667. https://dspace.mit.edu/handle/1721.1/1006
-- Waldspurger, C. A., and Weihl, W. E. (1995). “Stride Scheduling: Deterministic Proportional-Share Resource Management.” MIT-LCS-TM-528. https://dspace.mit.edu/
+- Waldspurger, C. A. (1995). “Lottery and Stride Scheduling: Flexible Proportional-Share Resource Management.” MIT-LCS-TR-667. https://hdl.handle.net/1721.1/149810
+- Waldspurger, C. A., and Weihl, W. E. (1995). “Stride Scheduling: Deterministic Proportional-Share Resource Management.” MIT-LCS-TM-528. https://hdl.handle.net/1721.1/149244
