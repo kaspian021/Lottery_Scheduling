@@ -28,6 +28,8 @@ The paper's ticket abstraction is useful because it turns a share into a countab
 
 Let client i own t_i tickets and let T be the sum of tickets owned by all eligible clients. A uniform draw selects one integer from 1 through T. The client owning the selected ticket receives the next allocation quantum.
 
+![Lottery and stride policy comparison pipeline](visuals/fig_lottery_stride_pipeline.png)
+
 The probability of a win in one draw is:
 
 P(i wins) = t_i / T
@@ -68,6 +70,8 @@ A critical evaluation therefore needs to distinguish at least three questions: w
 
 Stride scheduling is a deterministic proportional-share alternative. Each client has a stride inversely proportional to its ticket count. A virtual pass value tracks how much service the client has received. The client with the smallest pass value is selected, and its pass is advanced by its stride.
 
+![Maximum absolute share error: mean and worst lottery run versus stride](visuals/chart_lottery_stride_error.png)
+
 For a client with t_i tickets and a stride constant K:
 
 stride(i) = K / t_i
@@ -79,6 +83,8 @@ The supplied experiment uses a simple, explicit tie-break rule and always-runnab
 # 6. Experimental method
 
 The workload uses P1, P2, and P3 with ticket weights 5, 3, and 2. Each run performs a fixed number of allocation decisions. Lottery runs are repeated with a sequence of independent seeds so that variation across runs can be measured. Stride is run once under a deterministic tie-break rule.
+
+![Gantt chart of the reproducible experimental phases](visuals/gantt_experiment_plan.png)
 
 The output contains the workload definition, the target share for each client, per-seed lottery shares, the mean and worst maximum absolute share error across lottery runs, and the stride allocation shares and maximum absolute error.
 
@@ -97,6 +103,8 @@ The model intentionally excludes different quantum sizes, blocking behavior, tic
 # 8. Seminar structure
 
 The editable seminar deck follows this sequence:
+
+![Illustrative 24-slot allocation sequences for lottery and stride](visuals/gantt_policy_sequences.png)
 
 1. Why proportional-share resource allocation is useful.
 2. The lottery rule and the 5:3:2 worked example.
