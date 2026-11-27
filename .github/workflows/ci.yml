@@ -1,3 +1,4 @@
+# Read-only verification workflow; all generated artefacts remain under version control.
 name: Lottery Scheduling - Verify All Exercises
 on:
   push:
