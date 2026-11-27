@@ -122,6 +122,10 @@ def parse_blocks(body: str):
         if not stripped:
             i += 1
             continue
+        if stripped == "[[PAGEBREAK]]":
+            blocks.append(("pagebreak", None))
+            i += 1
+            continue
         if stripped.startswith("```"):
             j = i + 1
             code_lines = []
@@ -660,6 +664,8 @@ def build_pdf(lang: str, blocks, meta, out_pdf: str, toc_entries=None, n_toc_pag
             story.append(Spacer(1, 7))
         elif kind == "image":
             story.append(render_image(payload[0], payload[1], Path(_MD_DIR)))
+        elif kind == "pagebreak":
+            story.append(PageBreak())
         elif kind == "hr":
             story.append(HRFlowable(width="100%", thickness=0.6, color=LIGHT, spaceBefore=6, spaceAfter=6))
 
@@ -1040,6 +1046,8 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
             add_code_block(payload)
         elif kind == "image":
             add_picture(payload[0], payload[1])
+        elif kind == "pagebreak":
+            doc.add_page_break()
         elif kind == "hr":
             pass
 
@@ -1066,6 +1074,12 @@ def main(argv=None):
     _MD_DIR = str(src.parent)
     text = src.read_text(encoding="utf-8")
     meta, body = parse_front_matter(text)
+    appendix_name = meta.get("appendix", "").strip()
+    if appendix_name:
+        appendix_path = (src.parent / appendix_name).resolve()
+        if not appendix_path.is_file():
+            raise FileNotFoundError(f"configured report appendix does not exist: {appendix_path}")
+        body += "\n\n" + appendix_path.read_text(encoding="utf-8")
     blocks = parse_blocks(body)
 
     out_stem = Path(a.out_stem).resolve()
