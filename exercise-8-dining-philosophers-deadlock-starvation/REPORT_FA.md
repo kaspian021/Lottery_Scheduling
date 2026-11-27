@@ -105,5 +105,5 @@ N فیلسوف دور یک میز دایره‌ای و N چنگال قرار د�
 
 # منابع
 
-- E. W. Dijkstra، «Two Starvation-Free Solutions of a General Exclusion Problem»، یادداشت EWD625. https://www.cs.utexas.edu/users/EWD/ewd06xx/EWD625.PDF
+- E. W. Dijkstra، «Two Starvation-Free Solutions of a General Exclusion Problem»، یادداشت EWD625. https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD625.html
 - Allen B. Downey، کتاب The Little Book of Semaphores، مسئله‌ی فیلسوفان غذاخور و ترتیب منابع. https://greenteapress.com/wp/semaphores/
