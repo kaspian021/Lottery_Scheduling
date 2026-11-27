@@ -136,6 +136,13 @@ jobs:
           print(f"Validated {len(pdfs)} PDF files")
           PY
           mkdir -p /tmp/docx-check /tmp/rtl-renders
+          # Render the PDFs produced directly by the report builder.
+          for pdf in exercise-*/docs/*_FA.pdf; do
+            base=$(basename "$pdf" .pdf)
+            pdftoppm -f 1 -l 4 -png -scale-to 1100 "$pdf" "/tmp/rtl-renders/pdf-$base" >/dev/null 2>&1
+          done
+          # Separately convert Word files with LibreOffice and render those
+          # pages to catch layout differences introduced by DOCX rendering.
           while IFS= read -r -d '' docx; do
             libreoffice --headless -env:UserInstallation=file:///tmp/lo-docx-profile \
               --convert-to pdf --outdir /tmp/docx-check "$docx"
@@ -144,7 +151,7 @@ jobs:
             test -s "$pdf"
             pdfinfo "$pdf" | grep -q '^Pages:'
             base=$(basename "$pdf" .pdf)
-            pdftoppm -f 1 -l 4 -png -scale-to 1100 "$pdf" "/tmp/rtl-renders/$base" >/dev/null 2>&1
+            pdftoppm -f 1 -l 4 -png -scale-to 1100 "$pdf" "/tmp/rtl-renders/docx-$base" >/dev/null 2>&1
           done
           test "$(find /tmp/rtl-renders -type f -name '*.png' | wc -l)" -gt 0
 
