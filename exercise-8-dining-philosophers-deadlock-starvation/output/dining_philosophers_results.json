@@ -166,7 +166,7 @@
       3,
       4
     ],
-    "mean_wait_ms": 0.6301867800000593,
+    "mean_wait_ms": 0.6389288099991575,
     "fairness_argument": "A request is never passed by an earlier queued request that shares a fork. With finite eating intervals and fair OS thread scheduling, each philosopher's finite set of conflicting predecessors leaves.",
     "assumption": "Fairness is conditional on finite critical sections and OS thread scheduling."
   }
