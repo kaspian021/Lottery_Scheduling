@@ -43,9 +43,18 @@ def main() -> None:
     labels = [ax_share.text(i, 0.02, "", ha="center", va="bottom") for i in range(3)]
     footer = fig.text(0.5, 0.015, "", ha="center", fontsize=9)
 
+    # Keep the teaching clip short while sampling the full trace uniformly.
+    # The final decision is always included, even when the step does not divide
+    # the number of decisions exactly.
+    step = max(1, (len(trace) + 199) // 200)
+    frame_indices = list(range(0, len(trace), step))
+    if frame_indices[-1] != len(trace) - 1:
+        frame_indices.append(len(trace) - 1)
+
     def update(frame: int):
-        start = max(0, frame - 39)
-        window = trace[start:frame + 1]
+        decision_index = frame_indices[frame]
+        start = max(0, decision_index - 39)
+        window = trace[start:decision_index + 1]
         recent = {n: 0 for n in names}
         for row in window:
             recent[row["process"]] += 1
@@ -67,12 +76,12 @@ def main() -> None:
                 rect.set_visible(False)
         current = trace[frame]
         footer.set_text(
-            f"Decision {frame + 1}/{len(trace)} | winner: {current['process']} "
+            f"Decision {decision_index + 1}/{len(trace)} | winner: {current['process']} "
             f"| winning ticket: {current['winning_ticket']}/{current['total_waiting_tickets']}"
         )
         return list(bars) + labels + cells + [footer]
 
-    animation = FuncAnimation(fig, update, frames=len(trace), interval=120, blit=False)
+    animation = FuncAnimation(fig, update, frames=len(frame_indices), interval=120, blit=False)
     animation.save(MEDIA / "lottery_sync_demo.gif", writer=PillowWriter(fps=8))
     animation.save(MEDIA / "lottery_sync_demo.mp4", writer=FFMpegWriter(fps=12, bitrate=1600))
     plt.close(fig)
