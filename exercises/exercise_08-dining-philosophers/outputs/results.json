@@ -1,0 +1,306 @@
+{
+  "exercise": 8,
+  "topic": "Dining philosophers and starvation",
+  "philosophers": 5,
+  "meals_each": 3,
+  "meals_completed": 15,
+  "per_philosopher": [
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "finish_time": 16,
+  "trace": [
+    {
+      "seq": 1,
+      "time": 0,
+      "philosopher": 0,
+      "action": "eat_start",
+      "forks": [
+        0,
+        1
+      ],
+      "draw": 2,
+      "total_tickets": 15,
+      "effective_tickets": 5
+    },
+    {
+      "seq": 2,
+      "time": 0,
+      "philosopher": 3,
+      "action": "eat_start",
+      "forks": [
+        3,
+        4
+      ],
+      "draw": 6,
+      "total_tickets": 9,
+      "effective_tickets": 4
+    },
+    {
+      "seq": 3,
+      "time": 2,
+      "philosopher": 0,
+      "action": "finish"
+    },
+    {
+      "seq": 4,
+      "time": 2,
+      "philosopher": 3,
+      "action": "finish"
+    },
+    {
+      "seq": 5,
+      "time": 2,
+      "philosopher": 2,
+      "action": "eat_start",
+      "forks": [
+        2,
+        3
+      ],
+      "draw": 17,
+      "total_tickets": 29,
+      "effective_tickets": 7
+    },
+    {
+      "seq": 6,
+      "time": 2,
+      "philosopher": 4,
+      "action": "eat_start",
+      "forks": [
+        4,
+        0
+      ],
+      "draw": 9,
+      "total_tickets": 14,
+      "effective_tickets": 7
+    },
+    {
+      "seq": 7,
+      "time": 4,
+      "philosopher": 2,
+      "action": "finish"
+    },
+    {
+      "seq": 8,
+      "time": 4,
+      "philosopher": 4,
+      "action": "finish"
+    },
+    {
+      "seq": 9,
+      "time": 4,
+      "philosopher": 4,
+      "action": "eat_start",
+      "forks": [
+        4,
+        0
+      ],
+      "draw": 42,
+      "total_tickets": 43,
+      "effective_tickets": 7
+    },
+    {
+      "seq": 10,
+      "time": 4,
+      "philosopher": 1,
+      "action": "eat_start",
+      "forks": [
+        1,
+        2
+      ],
+      "draw": 4,
+      "total_tickets": 23,
+      "effective_tickets": 14
+    },
+    {
+      "seq": 11,
+      "time": 6,
+      "philosopher": 4,
+      "action": "finish"
+    },
+    {
+      "seq": 12,
+      "time": 6,
+      "philosopher": 1,
+      "action": "finish"
+    },
+    {
+      "seq": 13,
+      "time": 6,
+      "philosopher": 4,
+      "action": "eat_start",
+      "forks": [
+        4,
+        0
+      ],
+      "draw": 57,
+      "total_tickets": 57,
+      "effective_tickets": 7
+    },
+    {
+      "seq": 14,
+      "time": 6,
+      "philosopher": 1,
+      "action": "eat_start",
+      "forks": [
+        1,
+        2
+      ],
+      "draw": 8,
+      "total_tickets": 29,
+      "effective_tickets": 16
+    },
+    {
+      "seq": 15,
+      "time": 8,
+      "philosopher": 4,
+      "action": "finish"
+    },
+    {
+      "seq": 16,
+      "time": 8,
+      "philosopher": 1,
+      "action": "finish"
+    },
+    {
+      "seq": 17,
+      "time": 8,
+      "philosopher": 3,
+      "action": "eat_start",
+      "forks": [
+        3,
+        4
+      ],
+      "draw": 54,
+      "total_tickets": 64,
+      "effective_tickets": 16
+    },
+    {
+      "seq": 18,
+      "time": 8,
+      "philosopher": 1,
+      "action": "eat_start",
+      "forks": [
+        1,
+        2
+      ],
+      "draw": 37,
+      "total_tickets": 37,
+      "effective_tickets": 18
+    },
+    {
+      "seq": 19,
+      "time": 10,
+      "philosopher": 3,
+      "action": "finish"
+    },
+    {
+      "seq": 20,
+      "time": 10,
+      "philosopher": 1,
+      "action": "finish"
+    },
+    {
+      "seq": 21,
+      "time": 10,
+      "philosopher": 2,
+      "action": "eat_start",
+      "forks": [
+        2,
+        3
+      ],
+      "draw": 36,
+      "total_tickets": 56,
+      "effective_tickets": 19
+    },
+    {
+      "seq": 22,
+      "time": 10,
+      "philosopher": 0,
+      "action": "eat_start",
+      "forks": [
+        0,
+        1
+      ],
+      "draw": 16,
+      "total_tickets": 23,
+      "effective_tickets": 23
+    },
+    {
+      "seq": 23,
+      "time": 12,
+      "philosopher": 2,
+      "action": "finish"
+    },
+    {
+      "seq": 24,
+      "time": 12,
+      "philosopher": 0,
+      "action": "finish"
+    },
+    {
+      "seq": 25,
+      "time": 12,
+      "philosopher": 3,
+      "action": "eat_start",
+      "forks": [
+        3,
+        4
+      ],
+      "draw": 49,
+      "total_tickets": 62,
+      "effective_tickets": 20
+    },
+    {
+      "seq": 26,
+      "time": 12,
+      "philosopher": 0,
+      "action": "eat_start",
+      "forks": [
+        0,
+        1
+      ],
+      "draw": 25,
+      "total_tickets": 25,
+      "effective_tickets": 25
+    },
+    {
+      "seq": 27,
+      "time": 14,
+      "philosopher": 3,
+      "action": "finish"
+    },
+    {
+      "seq": 28,
+      "time": 14,
+      "philosopher": 0,
+      "action": "finish"
+    },
+    {
+      "seq": 29,
+      "time": 14,
+      "philosopher": 2,
+      "action": "eat_start",
+      "forks": [
+        2,
+        3
+      ],
+      "draw": 19,
+      "total_tickets": 23,
+      "effective_tickets": 23
+    },
+    {
+      "seq": 30,
+      "time": 16,
+      "philosopher": 2,
+      "action": "finish"
+    }
+  ],
+  "all_completed": true,
+  "starvation_guarantee": "none; lottery plus optional aging is probabilistic",
+  "deadlock_control": "At most N-1 philosophers may enter; each pair of forks is reserved atomically, equivalent to an ordered resource-acquisition discipline.",
+  "starvation_control": "Ticket aging increases selection probability with waiting, but remains probabilistic and is not a strict bounded-wait guarantee."
+}

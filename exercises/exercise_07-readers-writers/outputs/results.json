@@ -1,0 +1,283 @@
+{
+  "exercise": 7,
+  "topic": "Readers-writers fairness",
+  "requests": [
+    {
+      "id": "R1",
+      "kind": "reader",
+      "tickets": 3
+    },
+    {
+      "id": "R2",
+      "kind": "reader",
+      "tickets": 2
+    },
+    {
+      "id": "W1",
+      "kind": "writer",
+      "tickets": 5
+    },
+    {
+      "id": "R3",
+      "kind": "reader",
+      "tickets": 4
+    },
+    {
+      "id": "W2",
+      "kind": "writer",
+      "tickets": 2
+    },
+    {
+      "id": "R4",
+      "kind": "reader",
+      "tickets": 1
+    }
+  ],
+  "runs": {
+    "reader_preference": {
+      "policy": "reader_preference",
+      "trace": [
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R1",
+          "tickets": 3,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R2",
+          "tickets": 2,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R3",
+          "tickets": 4,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R4",
+          "tickets": 1,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 2,
+          "kind": "writer",
+          "request": "W1",
+          "tickets": 5,
+          "members_in_phase": [
+            "W1"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "writer",
+          "request": "W2",
+          "tickets": 2,
+          "members_in_phase": [
+            "W2"
+          ]
+        }
+      ],
+      "served_order": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "W1",
+        "W2"
+      ],
+      "all_served": true,
+      "phases": 3
+    },
+    "writer_preference": {
+      "policy": "writer_preference",
+      "trace": [
+        {
+          "phase": 1,
+          "kind": "writer",
+          "request": "W1",
+          "tickets": 5,
+          "members_in_phase": [
+            "W1"
+          ]
+        },
+        {
+          "phase": 2,
+          "kind": "writer",
+          "request": "W2",
+          "tickets": 2,
+          "members_in_phase": [
+            "W2"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "reader",
+          "request": "R1",
+          "tickets": 3,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "reader",
+          "request": "R2",
+          "tickets": 2,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "reader",
+          "request": "R3",
+          "tickets": 4,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "reader",
+          "request": "R4",
+          "tickets": 1,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        }
+      ],
+      "served_order": [
+        "W1",
+        "W2",
+        "R1",
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "all_served": true,
+      "phases": 3
+    },
+    "lottery": {
+      "policy": "lottery",
+      "trace": [
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R1",
+          "tickets": 3,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R2",
+          "tickets": 2,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R3",
+          "tickets": 4,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 1,
+          "kind": "reader",
+          "request": "R4",
+          "tickets": 1,
+          "members_in_phase": [
+            "R1",
+            "R2",
+            "R3",
+            "R4"
+          ]
+        },
+        {
+          "phase": 2,
+          "kind": "writer",
+          "request": "W1",
+          "tickets": 5,
+          "members_in_phase": [
+            "W1"
+          ]
+        },
+        {
+          "phase": 3,
+          "kind": "writer",
+          "request": "W2",
+          "tickets": 2,
+          "members_in_phase": [
+            "W2"
+          ]
+        }
+      ],
+      "served_order": [
+        "R1",
+        "R2",
+        "R3",
+        "R4",
+        "W1",
+        "W2"
+      ],
+      "all_served": true,
+      "phases": 3
+    }
+  },
+  "safety": "A writer phase is exclusive; a reader phase admits only a reader cohort.",
+  "fairness_limit": "Lottery improves proportional arbitration but does not give a deterministic waiting-time bound."
+}

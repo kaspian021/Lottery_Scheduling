@@ -1,0 +1,162 @@
+{
+  "exercise": 3,
+  "topic": "Hand-worked ticket draws",
+  "ticket_pool": {
+    "P1": 5,
+    "P2": 3,
+    "P3": 2
+  },
+  "intervals": {
+    "P1": "1-5",
+    "P2": "6-8",
+    "P3": "9-10"
+  },
+  "draws": [
+    {
+      "decision": 1,
+      "draw": 6,
+      "total_tickets": 10,
+      "winner": "P2",
+      "interval_low": 6,
+      "interval_high": 8
+    },
+    {
+      "decision": 2,
+      "draw": 3,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 3,
+      "draw": 7,
+      "total_tickets": 10,
+      "winner": "P2",
+      "interval_low": 6,
+      "interval_high": 8
+    },
+    {
+      "decision": 4,
+      "draw": 1,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 5,
+      "draw": 2,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 6,
+      "draw": 9,
+      "total_tickets": 10,
+      "winner": "P3",
+      "interval_low": 9,
+      "interval_high": 10
+    },
+    {
+      "decision": 7,
+      "draw": 2,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 8,
+      "draw": 6,
+      "total_tickets": 10,
+      "winner": "P2",
+      "interval_low": 6,
+      "interval_high": 8
+    },
+    {
+      "decision": 9,
+      "draw": 10,
+      "total_tickets": 10,
+      "winner": "P3",
+      "interval_low": 9,
+      "interval_high": 10
+    },
+    {
+      "decision": 10,
+      "draw": 1,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 11,
+      "draw": 9,
+      "total_tickets": 10,
+      "winner": "P3",
+      "interval_low": 9,
+      "interval_high": 10
+    },
+    {
+      "decision": 12,
+      "draw": 4,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 13,
+      "draw": 1,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 14,
+      "draw": 2,
+      "total_tickets": 10,
+      "winner": "P1",
+      "interval_low": 1,
+      "interval_high": 5
+    },
+    {
+      "decision": 15,
+      "draw": 7,
+      "total_tickets": 10,
+      "winner": "P2",
+      "interval_low": 6,
+      "interval_high": 8
+    }
+  ],
+  "counts": {
+    "P1": {
+      "tickets": 5,
+      "expected_share": 0.5,
+      "wins": 8,
+      "observed_share": 0.5333333333333333,
+      "absolute_error": 0.033333333333333326,
+      "binomial_standard_error": 0.12909944487358055
+    },
+    "P2": {
+      "tickets": 3,
+      "expected_share": 0.3,
+      "wins": 4,
+      "observed_share": 0.26666666666666666,
+      "absolute_error": 0.033333333333333326,
+      "binomial_standard_error": 0.11832159566199232
+    },
+    "P3": {
+      "tickets": 2,
+      "expected_share": 0.2,
+      "wins": 3,
+      "observed_share": 0.2,
+      "absolute_error": 0.0,
+      "binomial_standard_error": 0.10327955589886445
+    }
+  }
+}

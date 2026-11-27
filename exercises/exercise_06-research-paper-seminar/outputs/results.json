@@ -1,0 +1,38 @@
+{
+  "exercise": 6,
+  "topic": "Research and seminar data",
+  "reference": "Waldspurger & Weihl, OSDI 1994",
+  "ticket_pool": {
+    "P1": 5,
+    "P2": 3,
+    "P3": 2
+  },
+  "decisions": 5000,
+  "shares": {
+    "P1": {
+      "tickets": 5,
+      "expected_share": 0.5,
+      "wins": 2515,
+      "observed_share": 0.503,
+      "absolute_error": 0.0030000000000000027,
+      "binomial_standard_error": 0.007071067811865475
+    },
+    "P2": {
+      "tickets": 3,
+      "expected_share": 0.3,
+      "wins": 1526,
+      "observed_share": 0.3052,
+      "absolute_error": 0.005200000000000038,
+      "binomial_standard_error": 0.00648074069840786
+    },
+    "P3": {
+      "tickets": 2,
+      "expected_share": 0.2,
+      "wins": 959,
+      "observed_share": 0.1918,
+      "absolute_error": 0.008200000000000013,
+      "binomial_standard_error": 0.005656854249492381
+    }
+  },
+  "research_claim": "Lottery scheduling provides randomized proportional-share control; short-run outcomes vary and hard deadline guarantees do not follow from ticket weights."
+}
