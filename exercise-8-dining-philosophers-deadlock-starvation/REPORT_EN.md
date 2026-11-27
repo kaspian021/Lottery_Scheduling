@@ -1,6 +1,7 @@
 ---
 title: Dining Philosophers — Deadlock and Starvation
 subtitle: A controlled circular-wait witness, global resource ordering, and a fair monitor
+appendix: APPENDICES_EN.md
 deliverable: Exercise 8 report (Word + PDF)
 date: 2026-11-27
 footer: Dining Philosophers — Exercise 8
