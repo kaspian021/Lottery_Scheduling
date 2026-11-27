@@ -46,7 +46,7 @@ def main() -> None:
     # Keep the teaching clip short while sampling the full trace uniformly.
     # The final decision is always included, even when the step does not divide
     # the number of decisions exactly.
-    step = max(1, (len(trace) + 199) // 200)
+    step = max(1, (len(trace) + 99) // 100)
     frame_indices = list(range(0, len(trace), step))
     if frame_indices[-1] != len(trace) - 1:
         frame_indices.append(len(trace) - 1)
@@ -74,7 +74,7 @@ def main() -> None:
                 rect.set_visible(True)
             else:
                 rect.set_visible(False)
-        current = trace[frame]
+        current = trace[decision_index]
         footer.set_text(
             f"Decision {decision_index + 1}/{len(trace)} | winner: {current['process']} "
             f"| winning ticket: {current['winning_ticket']}/{current['total_waiting_tickets']}"
