@@ -1,6 +1,7 @@
 ---
 title: Lottery Scheduling as a Synchronization Mechanism
 subtitle: A weighted lottery lock, critical-section safety, empirical share, and a reproducible visual demonstration
+appendix: APPENDICES_EN.md
 deliverable: Exercise 5 report (Word + PDF)
 date: 2026-11-27
 footer: Lottery Scheduling Synchronization — Exercise 5
