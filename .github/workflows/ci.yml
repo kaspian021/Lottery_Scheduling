@@ -1,0 +1,44 @@
+name: Lottery Scheduling - Verify All Exercises
+on:
+  push:
+    branches:
+      - Lottery-Scheduling-All-Exercises
+    paths:
+      - 'shared/**'
+      - 'exercises/**'
+      - 'tests/**'
+      - 'tools/**'
+      - 'requirements.txt'
+      - 'pyproject.toml'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: Lottery-Scheduling-All-Exercises
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Validate documentation links and images
+        run: python tools/check_docs.py
+      - name: Re-run reproducible experiments
+        run: python tools/run_all_exercises.py
+      - name: Rebuild figures
+        run: python tools/generate_figures.py
+      - name: Rebuild seminar presentation
+        run: python tools/build_seminar.py
+      - name: Verify seminar output
+        run: test -s exercises/exercise_06-research-paper-seminar/docs/presentation/seminar_fa.pptx
+      - name: Run test suite
+        run: python -m pytest -q
