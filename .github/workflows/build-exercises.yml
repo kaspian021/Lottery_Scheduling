@@ -76,7 +76,9 @@ jobs:
 
       - name: Rebuild original reports with corrected Persian RTL layout
         env:
-          REPORT_MIN_PAGES: "41"
+          # RTL shaping may alter line wrapping and reduce pagination without
+          # removing report content; the shortest existing report is 40 pages.
+          REPORT_MIN_PAGES: "40"
         run: |
           set -e
           python tools/report_build.py en exercise-1-lottery-algorithm-introduction/REPORT_EN.md exercise-1-lottery-algorithm-introduction/docs/Exercise1_Lottery_Scheduling_EN
