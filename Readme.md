@@ -28,6 +28,10 @@ Each exercise has a dedicated folder named exercise-N-.... The common structure 
 
 The shared builder is tools/report_build.py. It builds a PDF and a Word document from each Markdown report. Persian reports use Vazirmatn and right-to-left paragraph formatting. English identifiers, code, dates and paths are kept left-to-right inside Persian text. Tables use Word's RTL visual table direction without reversing the source columns twice.
 
+All eight exercises now have bilingual visual reports: embedded diagrams, charts, and at least one exercise-specific Gantt/timeline in both Word and PDF. Exercises 5–8 generate their additional figures from the recorded JSON experiment outputs; Exercise 4 includes a protected-section interleaving timeline. The shared validation step checks that the figure assets are actually embedded in both DOCX and PDF files, not merely referenced in Markdown.
+
+Each exercise also has an editable five-slide visual seminar deck (PPTX) and a matching PDF export under its docs/ directory. Every slide contains a related figure, chart, or Gantt/timeline, and the slides are consecutive without blank separators.
+
 ## Requirements
 
 Python 3.11 or newer is recommended. Install packages with:
