@@ -18,7 +18,7 @@ A structured, reproducible Python project built around **Lottery Scheduling**. A
 | 2 | Lottery vs EDF and RM | `exercises/exercise_02-lottery-vs-edf-rm/` |
 | 3 | Hand-worked draws and schedule table | `exercises/exercise_03-manual-lottery-trace/` |
 | 4 | Synchronization: semaphore, monitor and shared state | `exercises/exercise_04-synchronization-primitives/` |
-| 5 | Lottery synchronization demo and trace animation | `exercises/exercise_05-lottery-synchronization-demo/` |
+| 5 | Lottery synchronization demo and trace visualization | `exercises/exercise_05-lottery-synchronization-demo/` |
 | 6 | Research paper and seminar | `exercises/exercise_06-research-paper-seminar/` |
 | 7 | Readers-writers fairness | `exercises/exercise_07-readers-writers/` |
 | 8* | Dining philosophers: deadlock and starvation | `exercises/exercise_08-dining-philosophers/` |
