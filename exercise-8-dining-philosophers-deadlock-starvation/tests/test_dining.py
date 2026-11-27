@@ -31,6 +31,48 @@ def test_fair_monitor_preserves_nonconflicting_concurrency_and_safety():
     assert len(result["entry_log"]) == 40
 
 
+def test_fair_monitor_does_not_let_later_conflicting_request_overtake():
+    monitor = FairDiningMonitor(5)
+    monitor.acquire(0)  # keep P0 eating; P1 conflicts with P0, P2 does not
+    p1_entered = threading.Event()
+    p1_release = threading.Event()
+    p2_entered = threading.Event()
+
+    def p1():
+        monitor.acquire(1)
+        p1_entered.set()
+        p1_release.wait(timeout=2)
+        monitor.release(1)
+
+    def p2():
+        monitor.acquire(2)
+        p2_entered.set()
+        monitor.release(2)
+
+    first = threading.Thread(target=p1)
+    first.start()
+    deadline = time.monotonic() + 1
+    while monitor.waiting_count < 1 and time.monotonic() < deadline:
+        time.sleep(0.001)
+    assert monitor.waiting_count == 1
+
+    second = threading.Thread(target=p2)
+    second.start()
+    deadline = time.monotonic() + 1
+    while monitor.waiting_count < 2 and time.monotonic() < deadline:
+        time.sleep(0.001)
+    assert monitor.waiting_count == 2
+
+    monitor.release(0)
+    assert p1_entered.wait(1)
+    assert not p2_entered.wait(0.05)
+    p1_release.set()
+    assert p2_entered.wait(1)
+    first.join(timeout=1)
+    second.join(timeout=1)
+    assert not first.is_alive() and not second.is_alive()
+
+
 def test_monitor_rejects_invalid_philosopher():
     monitor = FairDiningMonitor(5)
     try:
