@@ -28,6 +28,9 @@ def detect_deadlock_cycle(count: int = 5, timeout: float = 0.08) -> dict:
         raise ValueError("count must be >= 3 and timeout must be positive")
     forks = [threading.Lock() for _ in range(count)]
     barrier = threading.Barrier(count)
+    # Do not release any left fork until every right-fork request has timed out
+    # or completed; otherwise the first timeout could let a neighbour acquire.
+    outcomes_barrier = threading.Barrier(count)
     outcomes: list[dict] = [{} for _ in range(count)]
 
     def philosopher(index: int) -> None:
@@ -44,6 +47,8 @@ def detect_deadlock_cycle(count: int = 5, timeout: float = 0.08) -> dict:
             }
             if acquired:
                 forks[right].release()
+            # All requests observe the same circular-wait state before cleanup.
+            outcomes_barrier.wait(timeout=2)
         except threading.BrokenBarrierError:
             outcomes[index] = {
                 "philosopher": index,
