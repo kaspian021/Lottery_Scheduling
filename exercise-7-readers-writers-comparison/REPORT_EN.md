@@ -1,6 +1,7 @@
 ---
 title: Readers-Writers Synchronization Policies
 subtitle: Reader preference, writer preference, FIFO fairness, safety invariants, and measured waiting times
+appendix: APPENDICES_EN.md
 deliverable: Exercise 7 report (Word + PDF)
 date: 2026-11-27
 footer: Readers-Writers Comparison — Exercise 7
