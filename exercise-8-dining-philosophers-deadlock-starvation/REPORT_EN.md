@@ -105,6 +105,6 @@ The first scenario constructs the classic circular-wait pattern in a controlled 
 
 # References
 
-- E. W. Dijkstra, “Two Starvation-Free Solutions of a General Exclusion Problem,” EWD625. https://www.cs.utexas.edu/users/EWD/ewd06xx/EWD625.PDF
+- E. W. Dijkstra, “Two Starvation-Free Solutions of a General Exclusion Problem,” EWD625. https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD625.html
 - Allen B. Downey, The Little Book of Semaphores, dining philosophers and resource ordering. https://greenteapress.com/wp/semaphores/
 - D. L. Parnas and related early work on concurrent resource allocation; see Dijkstra's exclusion-problem notes for the ordering argument.
