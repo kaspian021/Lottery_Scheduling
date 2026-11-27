@@ -165,5 +165,9 @@ jobs:
             echo "No generated changes to commit."
           else
             git commit -m "Build bilingual reports and exercise evidence [skip ci]"
+            # Source reports or workflow settings may have been updated while
+            # the build ran. Rebase the generated artifacts onto the latest tip.
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
             git push origin "HEAD:$GITHUB_REF_NAME"
           fi
