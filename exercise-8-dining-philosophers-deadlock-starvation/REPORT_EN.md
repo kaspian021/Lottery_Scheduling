@@ -20,11 +20,15 @@ The exercise distinguishes deadlock freedom from starvation freedom. Resource or
 
 There are N philosophers seated around a circular table and N forks, one between each adjacent pair. Philosopher i needs fork i and fork (i + 1) modulo N to eat. A fork is an exclusive resource: two philosophers sharing that fork cannot eat at the same time.
 
+![Five philosophers around a ring of five exclusive forks](visuals/fig_philosopher_ring.png)
+
 The problem is not solved by making every fork individually exclusive; a system of exclusive locks can still deadlock. If each philosopher takes one fork and waits for the next, every requested fork is held by a neighbour. Nobody can proceed to the release step.
 
 # 2. Deadlock conditions
 
 The classic necessary conditions for deadlock are mutual exclusion, hold-and-wait, no preemption, and circular wait. In the dining-philosophers construction:
+
+![Circular wait graph: each philosopher waits for a fork held by the next](visuals/fig_circular_wait.png)
 
 - Mutual exclusion holds because each fork is a lock with one owner.
 - Hold-and-wait holds because a philosopher keeps its first fork while requesting the second.
@@ -38,6 +42,8 @@ The timeout is part of the laboratory harness, not the prevention algorithm. Wit
 # 3. Solution A — global resource hierarchy
 
 The resource-hierarchy solution gives every fork a unique numeric rank. A philosopher must acquire the lower-numbered fork before the higher-numbered fork, regardless of which fork is normally called left or right.
+
+![Resource hierarchy: acquire the lower fork identifier before the higher identifier](visuals/fig_resource_hierarchy.png)
 
 This creates a strict order for every wait edge. A circular wait would require a sequence of strictly increasing fork ranks to return to its starting fork. Such a sequence cannot exist. Therefore the wait-for graph cannot contain a cycle, and this protocol prevents deadlock caused by circular wait.
 
@@ -62,6 +68,8 @@ When a philosopher finishes its meal, it removes itself from the active set and 
 
 ## 5.1 Safety
 
+![Measured completion and philosopher-concurrency evidence](visuals/chart_philosopher_safety.png)
+
 Adjacent philosophers cannot eat at the same time because they need a common fork. The monitor checks this property whenever a request enters. For a five-philosopher ring, at most two philosophers can eat simultaneously because the largest independent set of the cycle has size two.
 
 ## 5.2 Deadlock freedom
@@ -77,6 +85,8 @@ This is a conditional progress argument, not a hard real-time guarantee. It depe
 # 6. Experimental design
 
 The experiment reports three results:
+
+![Gantt-style fair-monitor admission order from the recorded entry trace](visuals/gantt_monitor_admission.png)
 
 | Scenario | Purpose | Main evidence |
 |---|---|---|
