@@ -275,7 +275,7 @@ def pdf_styles(lang: str):
     reg = FA_REG if rtl else EN_REG
     body_size = 11
     leading = 16.6
-    align = TA_JUSTIFY
+    align = TA_RIGHT if rtl else TA_JUSTIFY
     styles = {}
     styles["body"] = ParagraphStyle("body", fontName=reg, fontSize=body_size, leading=leading,
                                     alignment=align, textColor=colors.black,
@@ -616,7 +616,7 @@ def build_pdf(lang: str, blocks, meta, out_pdf: str, toc_entries=None, n_toc_pag
             w, h = im.size
         max_w, max_h = 6.05, 4.35
         scale = min(max_w / (w / 96.0), max_h / (h / 96.0))
-        img = Image(str(path), width=(w / 96.0) * scale, height=(h / 96.0) * scale)
+        img = Image(str(path), width=(w / 96.0) * scale * 72.0, height=(h / 96.0) * scale * 72.0)
         img.hAlign = "CENTER"
         items = [img]
         if alt:
@@ -739,6 +739,18 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
     sec.page_width, sec.page_height = Inches(8.27), Inches(11.69)
     sec.top_margin, sec.bottom_margin = Inches(0.72), Inches(0.68)
     sec.left_margin, sec.right_margin = Inches(0.59), Inches(0.59)
+    if rtl:
+        # whole-document RTL: mirrors margins/headers/footers in Word and sets
+        # the default paragraph direction to RTL (ECMA-376: bidi goes between
+        # cols and docGrid)
+        sectPr = sec._sectPr
+        if sectPr.find(qn("w:bidi")) is None:
+            bidi_el = OxmlElement("w:bidi")
+            cols_el = sectPr.find(qn("w:cols"))
+            if cols_el is not None:
+                cols_el.addnext(bidi_el)
+            else:
+                sectPr.append(bidi_el)
 
     # default style
     normal = doc.styles["Normal"]
@@ -751,6 +763,11 @@ def build_docx(lang: str, blocks, meta, out_docx: str, toc_entries, md_dir: Path
     # footer with page number
     fp = sec.footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    if rtl:
+        fpp = fp._p.get_or_add_pPr()
+        if fpp.find(qn("w:bidi")) is None:
+            fbidi = OxmlElement("w:bidi")
+            fpp.append(fbidi)
     r = fp.add_run()
     set_run_fonts(r, REG, 9, rtl_run=False)
     from docx.oxml import OxmlElement as _OE
