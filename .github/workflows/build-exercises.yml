@@ -190,6 +190,10 @@ jobs:
           ]
           for directory in new_report_dirs:
               for path in sorted((Path(directory) / "docs").glob("Exercise*_*.pdf")):
+                  # The separate visual seminar decks are five slides; the
+                  # >40-page contract applies only to the bilingual reports.
+                  if not path.name.endswith(("_EN.pdf", "_FA.pdf")):
+                      continue
                   page_count = len(PdfReader(str(path)).pages)
                   if page_count <= 40:
                       raise SystemExit(f"{path} has {page_count} pages; must be > 40")
