@@ -92,7 +92,8 @@ jobs:
 
       - name: Build bilingual reports for Exercises 5–8
         env:
-          REPORT_MIN_PAGES: "1"
+          # Every new exercise report must exceed forty pages in both formats.
+          REPORT_MIN_PAGES: "41"
         run: |
           set -e
           python tools/report_build.py en exercise-5-lottery-scheduling-synchronization-demo/REPORT_EN.md exercise-5-lottery-scheduling-synchronization-demo/docs/Exercise5_Lottery_Sync_EN
@@ -135,7 +136,18 @@ jobs:
                   )
                   if not has_persian:
                       raise SystemExit(f"Persian characters not extractable from {path}")
-          print(f"Validated {len(pdfs)} PDF files")
+          new_report_dirs = [
+              "exercise-5-lottery-scheduling-synchronization-demo",
+              "exercise-6-research-paper-and-seminar",
+              "exercise-7-readers-writers-comparison",
+              "exercise-8-dining-philosophers-deadlock-starvation",
+          ]
+          for directory in new_report_dirs:
+              for path in sorted((Path(directory) / "docs").glob("Exercise*_*.pdf")):
+                  page_count = len(PdfReader(str(path)).pages)
+                  if page_count <= 40:
+                      raise SystemExit(f"{path} has {page_count} pages; must be > 40")
+          print(f"Validated {len(pdfs)} PDF files and the >40-page rule for Exercises 5–8")
           PY
           mkdir -p /tmp/docx-check /tmp/rtl-renders
           # Render the PDFs produced directly by the report builder.
@@ -148,12 +160,18 @@ jobs:
           while IFS= read -r -d '' docx; do
             libreoffice --headless -env:UserInstallation=file:///tmp/lo-docx-profile \
               --convert-to pdf --outdir /tmp/docx-check "$docx"
-          done < <(find exercise-*/docs -type f -name '*_FA.docx' -print0)
-          for pdf in /tmp/docx-check/*_FA.pdf; do
+          done < <(find exercise-5-lottery-scheduling-synchronization-demo/docs exercise-6-research-paper-and-seminar/docs exercise-7-readers-writers-comparison/docs exercise-8-dining-philosophers-deadlock-starvation/docs -type f -name 'Exercise*.docx' -print0)
+          for pdf in /tmp/docx-check/Exercise*.pdf; do
             test -s "$pdf"
-            pdfinfo "$pdf" | grep -q '^Pages:'
+            pages=$(pdfinfo "$pdf" | awk '/^Pages:/ {print $2}')
+            if [ "$pages" -le 40 ]; then
+              echo "Word-converted document $(basename "$pdf") has $pages pages; must be > 40"
+              exit 1
+            fi
             base=$(basename "$pdf" .pdf)
-            pdftoppm -f 1 -l 4 -png -scale-to 1100 "$pdf" "/tmp/rtl-renders/docx-$base" >/dev/null 2>&1
+            if [[ "$base" == *_FA ]]; then
+              pdftoppm -f 1 -l 4 -png -scale-to 1100 "$pdf" "/tmp/rtl-renders/docx-$base" >/dev/null 2>&1
+            fi
           done
           test "$(find /tmp/rtl-renders -type f -name '*.png' | wc -l)" -gt 0
 
