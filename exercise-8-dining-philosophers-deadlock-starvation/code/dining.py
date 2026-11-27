@@ -154,6 +154,11 @@ class FairDiningMonitor:
         self.max_eating = 0
         self.violations: list[str] = []
 
+    @property
+    def waiting_count(self) -> int:
+        with self._condition:
+            return len(self._queue)
+
     def acquire(self, philosopher: int) -> float:
         if not 0 <= philosopher < self.count:
             raise ValueError("invalid philosopher index")
